@@ -1,9 +1,24 @@
 from tkinter import *
 import random
 
+class Data:
+	def __init__(self):
+		self.data = []
+
+	def input(self, name, age, mobile_q):
+		new_data = {"name": name, "age": age, "mobile_q": mobile_q}
+		self.data.append(new_data)
+		print(len(self.data))
+
+	def view(self):
+		return self.data
+
 class GUI:
     def __init__(self, parent):
         f1 = Frame(parent)
+
+        #Create User Database
+        self.userData = Data()
 
         #Header
         self.collecting_data_label = Label(f1, text="Collect Data")
@@ -30,13 +45,20 @@ class GUI:
         self.mobile_phone_label_1.grid(row=3, column=0)
         self.mobile_phone_label_2 = Label(f1, text="mobile phone?: ")
         self.mobile_phone_label_2.grid(row=4, column=0)
-        Radiobutton(f1, text="Yes").grid(row=3, column=1)
-        Radiobutton(f1, text="No").grid(row=4, column=1)
+
+        self.var = IntVar()
+        self.yes_rb = Radiobutton(f1, text="Yes", variable=self.var, value=1).grid(row=3, column=1)
+        self.no_rb = Radiobutton(f1, text="No", variable=self.var, value=0).grid(row=4, column=1)
 
         #Enter Data
-        Button(f1, text="Enter Data").grid(row=5, column=1)
+        Button(f1, text="Enter Data", command=self.enter_data).grid(row=5, column=1)
 
         f1.pack()
+
+    #Input Data
+    def enter_data(self):
+    	self.userData.input(self.first_name_entry.get(), self.age_entry.get(), self.var.get())
+    	print(self.userData.view())
     
 if __name__ == "__main__":
     root = Tk()
